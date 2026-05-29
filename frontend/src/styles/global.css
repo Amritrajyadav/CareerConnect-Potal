@@ -2995,3 +2995,228 @@ textarea {
     grid-template-columns: 1fr;
   }
 }
+
+/* ===== SaaS UI Upgrade - Dashboard Layout ===== */
+
+.saas-shell {
+  min-height: calc(100vh - 78px);
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  background:
+    radial-gradient(circle at top left, rgba(99,102,241,.12), transparent 28%),
+    linear-gradient(180deg, #f8fafc, #eef2ff);
+}
+
+.dark .saas-shell {
+  background:
+    radial-gradient(circle at top left, rgba(99,102,241,.16), transparent 28%),
+    linear-gradient(180deg, #020617, #0f172a);
+}
+
+.saas-sidebar {
+  background: rgba(15, 23, 42, 0.96);
+  color: white;
+  padding: 24px;
+  position: sticky;
+  top: 78px;
+  height: calc(100vh - 78px);
+  overflow-y: auto;
+  border-right: 1px solid rgba(255,255,255,.08);
+}
+
+.saas-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.saas-brand-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  font-weight: 900;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  box-shadow: 0 18px 40px rgba(99,102,241,.35);
+}
+
+.saas-brand h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.saas-brand p {
+  margin: 4px 0 0;
+  color: #93c5fd;
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.saas-user-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.08);
+  margin-bottom: 24px;
+}
+
+.saas-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #22c55e, #06b6d4);
+  display: grid;
+  place-items: center;
+  font-size: 21px;
+  font-weight: 900;
+}
+
+.saas-user-card h4 {
+  margin: 0;
+}
+
+.saas-user-card p {
+  margin: 4px 0 0;
+  color: #cbd5e1;
+  max-width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 12px;
+}
+
+.saas-nav {
+  display: grid;
+  gap: 10px;
+}
+
+.saas-nav a {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 15px;
+  border-radius: 16px;
+  color: #cbd5e1;
+  transition: .25s;
+}
+
+.saas-nav a span {
+  font-size: 18px;
+}
+
+.saas-nav a.active,
+.saas-nav a:hover {
+  background: linear-gradient(135deg, rgba(99,102,241,.28), rgba(139,92,246,.22));
+  color: white;
+  transform: translateX(4px);
+}
+
+.saas-logout {
+  width: 100%;
+  margin-top: 26px;
+  padding: 14px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.saas-main {
+  padding: 30px;
+  min-width: 0;
+}
+
+.saas-topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  padding: 30px;
+  border-radius: 30px;
+  background: rgba(255,255,255,.88);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(226,232,240,.9);
+  box-shadow: 0 24px 60px rgba(15,23,42,.08);
+  margin-bottom: 28px;
+}
+
+.dark .saas-topbar {
+  background: rgba(30,41,59,.88);
+  border-color: rgba(51,65,85,.9);
+}
+
+.saas-topbar h1 {
+  margin: 8px 0;
+  font-size: 38px;
+  letter-spacing: -1px;
+}
+
+.saas-topbar p {
+  color: #64748b;
+}
+
+.dark .saas-topbar p {
+  color: #cbd5e1;
+}
+
+.saas-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.saas-content .card,
+.saas-content .stat-card,
+.saas-content .table-card {
+  border: 1px solid rgba(226,232,240,.9);
+}
+
+.dark .saas-content .card {
+  border-color: rgba(51,65,85,.9);
+}
+
+@media (max-width: 1000px) {
+  .saas-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .saas-sidebar {
+    position: static;
+    height: auto;
+  }
+
+  .saas-nav {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .saas-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .saas-main {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 650px) {
+  .saas-nav {
+    grid-template-columns: 1fr;
+  }
+
+  .saas-topbar h1 {
+    font-size: 30px;
+  }
+
+  .saas-top-actions {
+    flex-wrap: wrap;
+  }
+}
