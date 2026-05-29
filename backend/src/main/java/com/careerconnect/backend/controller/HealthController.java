@@ -1,0 +1,1 @@
+package com.careerconnect.backend.controller; import org.springframework.web.bind.annotation.*; @RestController public class HealthController{@GetMapping("/") public String home(){return "CareerConnect Pro Advanced Backend Running";}}
