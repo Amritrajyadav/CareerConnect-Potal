@@ -1,26 +1,26 @@
-# Frontend
-frontend/node_modules/
+# Node
 node_modules/
+frontend/node_modules/
+frontend/dist/
 
-# Backend
-backend/target/
+# Java / Maven
 target/
+backend/target/
+*.jar
 
 # Uploads
 uploads/
 backend/uploads/
 
-# Environment files
+# Secrets
 .env
-.env.*
+.env.local
 *.env
+application-local.properties
 
 # IDE
 .vscode/
 .idea/
-
-# Logs
-*.log
 
 # OS
 .DS_Store
