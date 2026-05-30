@@ -1,7 +1,11 @@
 import axios from "axios";
 
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://careerconnect-potal-production.up.railway.app/api";
+
 const API = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL: API_BASE_URL,
 });
 
 API.interceptors.request.use(

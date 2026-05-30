@@ -25,10 +25,7 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
-    public SecurityConfig(
-            JwtAuthFilter jwtAuthFilter,
-            UserDetailsService userDetailsService
-    ) {
+    public SecurityConfig(JwtAuthFilter jwtAuthFilter, UserDetailsService userDetailsService) {
         this.jwtAuthFilter = jwtAuthFilter;
         this.userDetailsService = userDetailsService;
     }
@@ -40,62 +37,43 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.csrf(csrf -> csrf.disable());
-
-        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-
-        http.sessionManagement(session ->
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        );
-
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                        "/",
-                        "/api/auth/**",
-                        "/api/password/**",
-                        "/api/offers",
-                        "/api/profiles/student/public/**",
-                        "/api/profiles/company/public/**"
-                ).permitAll()
-
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-
-                .requestMatchers("/api/offers/**").hasAnyRole("ADMIN")
-
-                .requestMatchers("/api/jobs/**").hasAnyRole("COMPANY", "ADMIN", "STUDENT")
-
-                .requestMatchers("/api/applications/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
-
-                .requestMatchers("/api/profiles/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
-
-                .requestMatchers("/api/saved-jobs/**").hasAnyRole("STUDENT", "ADMIN")
-
-                .requestMatchers("/api/notifications/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
-
-                .requestMatchers("/api/interviews/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
-
-                .requestMatchers("/api/placement-offers/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
-
-                .requestMatchers("/api/resume-analysis/**").hasAnyRole("STUDENT", "ADMIN")
-
-                .anyRequest().authenticated()
-        );
-
-        http.authenticationProvider(authenticationProvider());
-
-        http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+        http
+                .csrf(csrf -> csrf.disable())
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(
+                                "/",
+                                "/api/auth/**",
+                                "/api/password/**",
+                                "/api/offers",
+                                "/api/profiles/student/public/**",
+                                "/api/profiles/company/public/**"
+                        ).permitAll()
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/api/offers/**").hasRole("ADMIN")
+                        .requestMatchers("/api/jobs/**").hasAnyRole("COMPANY", "ADMIN", "STUDENT")
+                        .requestMatchers("/api/applications/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
+                        .requestMatchers("/api/profiles/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
+                        .requestMatchers("/api/saved-jobs/**").hasAnyRole("STUDENT", "ADMIN")
+                        .requestMatchers("/api/notifications/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
+                        .requestMatchers("/api/interviews/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
+                        .requestMatchers("/api/placement-offers/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
+                        .requestMatchers("/api/resume-analysis/**").hasAnyRole("STUDENT", "ADMIN")
+                        .anyRequest().authenticated()
+                )
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider provider =
-                new DaoAuthenticationProvider(userDetailsService);
-
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);
         provider.setPasswordEncoder(passwordEncoder());
-
         return provider;
     }
 
@@ -108,23 +86,17 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        config.setAllowedOrigins(List.of(
-                "http://localhost:5173",
-                "http://localhost:5174",
-                "http://localhost:5175",
-                "http://localhost:8080"
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:*",
+                "https://*.netlify.app",
+                "https://careerconnect-potal-production.up.railway.app"
         ));
 
-        config.setAllowedMethods(List.of(
-                "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"
-        ));
-
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source =
-                new UrlBasedCorsConfigurationSource();
-
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
 
         return source;
