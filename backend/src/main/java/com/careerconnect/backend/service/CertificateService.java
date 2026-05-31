@@ -47,6 +47,6 @@ public class CertificateService {
         writer.write(html);
         writer.close();
 
-        return "/certificates/" + fileName;
+        return "/api/auth/certificates/" + fileName;
     }
 }
