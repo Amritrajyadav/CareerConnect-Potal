@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import API from "../services/api";
 import DashboardLayout from "../components/DashboardLayout";
@@ -49,9 +49,7 @@ function StudentDashboard() {
       await API.patch(`/placement-offers/${id}/status?status=${status}`);
 
       setPlacementOffers((prev) =>
-        prev.map((offer) =>
-          offer.id === id ? { ...offer, status } : offer
-        )
+        prev.map((offer) => (offer.id === id ? { ...offer, status } : offer))
       );
 
       setMsg(`Offer ${status.toLowerCase()} successfully.`);
@@ -64,39 +62,166 @@ function StudentDashboard() {
   const upcomingInterview = interviews[0] || null;
   const latestOffer = placementOffers[0] || null;
 
+  const acceptedOffers = placementOffers.filter(
+    (offer) => offer.status === "ACCEPTED"
+  ).length;
+
+  const pendingOffers = placementOffers.filter(
+    (offer) => offer.status === "PENDING"
+  ).length;
+
+  const profileCompletion = useMemo(() => {
+    let score = 40;
+
+    if (applications.length > 0) score += 15;
+    if (savedJobs.length > 0) score += 10;
+    if (interviews.length > 0 || applicationInterviews.length > 0) score += 15;
+    if (placementOffers.length > 0) score += 10;
+
+    return Math.min(score, 95);
+  }, [applications.length, savedJobs.length, interviews.length, placementOffers.length]);
+
+  const resumeScore = Math.min(72 + applications.length * 3 + savedJobs.length * 2, 94);
+  const jobMatchScore = Math.min(78 + savedJobs.length * 3 + applications.length * 2, 96);
+
+  const timeline = [
+    {
+      title: "Profile Created",
+      text: "Student workspace activated",
+      done: true,
+      icon: "👤",
+    },
+    {
+      title: "Jobs Explored",
+      text: `${savedJobs.length} saved jobs found`,
+      done: savedJobs.length > 0,
+      icon: "💼",
+    },
+    {
+      title: "Applications Sent",
+      text: `${applications.length} total applications`,
+      done: applications.length > 0,
+      icon: "📨",
+    },
+    {
+      title: "Interview Stage",
+      text: `${interviews.length || applicationInterviews.length} interviews tracked`,
+      done: interviews.length > 0 || applicationInterviews.length > 0,
+      icon: "🎯",
+    },
+    {
+      title: "Offer Stage",
+      text: `${placementOffers.length} offers received`,
+      done: placementOffers.length > 0,
+      icon: "🏆",
+    },
+  ];
+
   return (
     <DashboardLayout
       title={`Welcome, ${user?.fullName || "Student"}`}
-      subtitle="Track applications, interviews, offers, saved jobs and resume strength."
+      subtitle="Track your applications, interviews, offers, resume strength and career progress."
     >
       {msg && <p className="message">{msg}</p>}
 
-      <div className="stats">
-        <div className="stat-card blue">
+      <section className="student-premium-hero">
+        <div>
+          <span className="student-hero-badge">🎓 Student Career Command Center</span>
+          <h1>Build, apply, interview and get placed faster.</h1>
+          <p>
+            Your complete placement journey in one dashboard — powered by smart
+            recommendations, ATS score, job tracking and interview updates.
+          </p>
+
+          <div className="student-hero-actions">
+            <Link to="/jobs" className="btn">
+              Explore Jobs
+            </Link>
+            <Link to="/resume-analyzer" className="btn secondary">
+              Analyze Resume
+            </Link>
+          </div>
+        </div>
+
+        <div className="student-score-card">
+          <div className="student-score-ring" style={{ "--score": resumeScore }}>
+            <span>{resumeScore}%</span>
+          </div>
+          <h3>Resume Score</h3>
+          <p>ATS-ready career profile</p>
+        </div>
+      </section>
+
+      <section className="student-metric-grid">
+        <div className="student-metric-card blue">
+          <span>📄</span>
           <h2>{applications.length}</h2>
           <p>Total Applications</p>
         </div>
 
-        <div className="stat-card green">
+        <div className="student-metric-card green">
+          <span>💾</span>
           <h2>{savedJobs.length}</h2>
           <p>Saved Jobs</p>
         </div>
 
-        <div className="stat-card orange">
+        <div className="student-metric-card orange">
+          <span>🎤</span>
           <h2>{interviews.length || applicationInterviews.length}</h2>
           <p>Interviews</p>
         </div>
 
-        <div className="stat-card purple">
+        <div className="student-metric-card purple">
+          <span>🏆</span>
           <h2>{placementOffers.length}</h2>
-          <p>Offers</p>
+          <p>Placement Offers</p>
         </div>
-      </div>
+      </section>
+
+      <section className="student-insight-grid">
+        <div className="card student-insight-card">
+          <div className="student-card-head">
+            <div>
+              <p className="eyebrow">Career Readiness</p>
+              <h2>Profile Completion</h2>
+            </div>
+            <strong>{profileCompletion}%</strong>
+          </div>
+
+          <div className="student-progress-track">
+            <span style={{ width: `${profileCompletion}%` }}></span>
+          </div>
+
+          <p>
+            Keep applying, saving jobs and updating your profile to improve your
+            placement readiness score.
+          </p>
+        </div>
+
+        <div className="card student-insight-card">
+          <div className="student-card-head">
+            <div>
+              <p className="eyebrow">AI Match</p>
+              <h2>Job Match Score</h2>
+            </div>
+            <strong>{jobMatchScore}%</strong>
+          </div>
+
+          <div className="student-progress-track green">
+            <span style={{ width: `${jobMatchScore}%` }}></span>
+          </div>
+
+          <p>
+            Based on your activity, saved jobs and applications across the
+            platform.
+          </p>
+        </div>
+      </section>
 
       {latestOffer && (
-        <div className="card offer-alert">
+        <div className="card student-offer-banner">
           <div>
-            <p className="eyebrow">Placement Offer</p>
+            <p className="eyebrow">Latest Placement Offer</p>
             <h2>{latestOffer.offerTitle}</h2>
             <p>{latestOffer.offerMessage}</p>
 
@@ -107,7 +232,7 @@ function StudentDashboard() {
             </div>
 
             {latestOffer.status === "PENDING" && (
-              <div className="action-list">
+              <div className="student-hero-actions">
                 <button
                   className="btn"
                   onClick={() => updateOfferStatus(latestOffer.id, "ACCEPTED")}
@@ -130,7 +255,7 @@ function StudentDashboard() {
       )}
 
       {upcomingInterview && (
-        <div className="card interview-alert interview-pro-card">
+        <div className="card student-interview-banner">
           <div>
             <p className="eyebrow">Upcoming Interview</p>
             <h2>Your interview is scheduled</h2>
@@ -169,7 +294,7 @@ function StudentDashboard() {
       )}
 
       {!upcomingInterview && applicationInterviews.length > 0 && (
-        <div className="card interview-alert">
+        <div className="card student-interview-banner">
           <div>
             <p className="eyebrow">Upcoming Interview</p>
             <h2>Great! You have an interview scheduled</h2>
@@ -184,15 +309,16 @@ function StudentDashboard() {
         </div>
       )}
 
-      <div className="dashboard-grid">
-        <div className="card resume-upgrade-card">
-          <h2>Resume & AI Career Boost</h2>
+      <section className="student-main-grid">
+        <div className="card student-ai-card">
+          <span className="student-hero-badge">🤖 AI Career Boost</span>
+          <h2>Improve resume score and get stronger job matches.</h2>
           <p>
-            Upload your resume and analyze it with ATS scoring to improve job
-            matching.
+            Upload your resume, analyze ATS score, identify missing skills and
+            prepare better for interviews.
           </p>
 
-          <div className="action-list">
+          <div className="student-hero-actions">
             <Link to="/student-profile" className="btn">
               Upload Resume
             </Link>
@@ -203,20 +329,53 @@ function StudentDashboard() {
           </div>
         </div>
 
-        <div className="card">
-          <h2>Smart Recommendations</h2>
+        <div className="card student-recommend-card">
+          <p className="eyebrow">Smart Recommendations</p>
+          <h2>Best Career Matches</h2>
 
-          <div className="status-list">
-            <span>🔥 Java Full Stack Developer — 92% Match</span>
-            <span>🚀 React Developer — 84% Match</span>
-            <span>📌 Spring Boot Intern — 79% Match</span>
+          <div className="student-match-list">
+            <div>
+              <b>Java Full Stack Developer</b>
+              <span>92%</span>
+              <div><i style={{ width: "92%" }}></i></div>
+            </div>
+
+            <div>
+              <b>React Frontend Developer</b>
+              <span>84%</span>
+              <div><i style={{ width: "84%" }}></i></div>
+            </div>
+
+            <div>
+              <b>Spring Boot Intern</b>
+              <span>79%</span>
+              <div><i style={{ width: "79%" }}></i></div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div className="dashboard-grid">
+      <section className="student-main-grid">
         <div className="card">
-          <h2>Offers & Announcements</h2>
+          <p className="eyebrow">Career Journey</p>
+          <h2>Placement Progress</h2>
+
+          <div className="student-timeline">
+            {timeline.map((item) => (
+              <div className={item.done ? "done" : ""} key={item.title}>
+                <span>{item.icon}</span>
+                <div>
+                  <b>{item.title}</b>
+                  <p>{item.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="card">
+          <p className="eyebrow">Offers & Updates</p>
+          <h2>Latest Announcements</h2>
 
           <div className="offer-strip">
             {offers.length === 0 && <p>No offers available.</p>}
@@ -229,9 +388,12 @@ function StudentDashboard() {
             ))}
           </div>
         </div>
+      </section>
 
+      <section className="student-main-grid">
         <div className="card">
-          <h2>Saved Jobs</h2>
+          <p className="eyebrow">Saved Jobs</p>
+          <h2>Your Job Watchlist</h2>
 
           <div className="mini-list">
             {savedJobs.length === 0 && <p>No saved jobs yet.</p>}
@@ -248,7 +410,32 @@ function StudentDashboard() {
             ))}
           </div>
         </div>
-      </div>
+
+        <div className="card">
+          <p className="eyebrow">Placement Summary</p>
+          <h2>Offer Insights</h2>
+
+          <div className="student-summary-list">
+            <div>
+              <span>🏆</span>
+              <b>{placementOffers.length}</b>
+              <p>Total Offers</p>
+            </div>
+
+            <div>
+              <span>✅</span>
+              <b>{acceptedOffers}</b>
+              <p>Accepted Offers</p>
+            </div>
+
+            <div>
+              <span>⏳</span>
+              <b>{pendingOffers}</b>
+              <p>Pending Offers</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <div className="card section-card">
         <h2>My Placement Offers</h2>

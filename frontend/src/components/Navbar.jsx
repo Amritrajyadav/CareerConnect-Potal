@@ -29,7 +29,7 @@ function Navbar() {
 
         <div>
           <strong>CareerConnect</strong>
-          <small>AI Hiring SaaS</small>
+          <small>with AI Hiring</small>
         </div>
       </Link>
 
