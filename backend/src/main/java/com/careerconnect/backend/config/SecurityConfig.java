@@ -3,6 +3,7 @@ package com.careerconnect.backend.config;
 import com.careerconnect.backend.security.JwtAuthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,7 +45,6 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http.csrf(csrf -> csrf.disable());
-
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
         http.sessionManagement(session ->
@@ -63,8 +63,13 @@ public class SecurityConfig {
                 ).permitAll()
 
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.GET, "/api/jobs/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/jobs/**").hasAnyRole("COMPANY", "ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/api/jobs/**").hasAnyRole("COMPANY", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/jobs/**").hasAnyRole("COMPANY", "ADMIN")
+
                 .requestMatchers("/api/offers/**").hasRole("ADMIN")
-                .requestMatchers("/api/jobs/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
                 .requestMatchers("/api/applications/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
                 .requestMatchers("/api/profiles/**").hasAnyRole("STUDENT", "COMPANY", "ADMIN")
                 .requestMatchers("/api/saved-jobs/**").hasAnyRole("STUDENT", "ADMIN")
@@ -77,7 +82,6 @@ public class SecurityConfig {
         );
 
         http.authenticationProvider(authenticationProvider());
-
         http.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
@@ -89,7 +93,6 @@ public class SecurityConfig {
                 new DaoAuthenticationProvider(userDetailsService);
 
         provider.setPasswordEncoder(passwordEncoder());
-
         return provider;
     }
 
