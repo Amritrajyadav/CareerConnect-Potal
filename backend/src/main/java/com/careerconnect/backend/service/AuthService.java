@@ -79,6 +79,10 @@ public class AuthService {
             throw new RuntimeException("Your account is blocked");
         }
 
+        if (user.getRole() == Role.COMPANY && !user.isApproved()) {
+            throw new RuntimeException("Company account is pending admin approval");
+        }
+
         return new AuthResponse(
                 jwt.generateToken(user),
                 user.getId(),
