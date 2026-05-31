@@ -11,6 +11,14 @@ function DashboardLayout({ title, subtitle, children }) {
     navigate("/login");
   };
 
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+
+    if (hour < 12) return "Good Morning";
+    if (hour < 17) return "Good Afternoon";
+    return "Good Evening";
+  };
+
   const studentLinks = [
     { path: "/student", label: "Overview", icon: "📊" },
     { path: "/jobs", label: "Browse Jobs", icon: "💼" },
@@ -41,28 +49,49 @@ function DashboardLayout({ title, subtitle, children }) {
       ? companyLinks
       : studentLinks;
 
+  const workspaceLabel =
+    user?.role === "ADMIN"
+      ? "Platform Control Center"
+      : user?.role === "COMPANY"
+      ? "Recruiter Hiring Workspace"
+      : "Student Career Workspace";
+
   return (
-    <div className="saas-shell">
-      <aside className="saas-sidebar">
-        <div className="saas-brand">
-          <div className="saas-brand-icon">C</div>
+    <div className="premium-dash-shell">
+      <aside className="premium-dash-sidebar">
+        <div className="dash-glow"></div>
+
+        <div className="premium-dash-brand">
+          <div className="premium-dash-logo">C</div>
+
           <div>
             <h2>CareerConnect</h2>
-            <p>{user?.role || "USER"} Workspace</p>
+            <p>AI Recruitment SaaS</p>
           </div>
         </div>
 
-        <div className="saas-user-card">
-          <div className="saas-avatar">
+        <div className="premium-user-panel">
+          <div className="premium-avatar">
             {user?.fullName?.charAt(0) || "U"}
+            <span></span>
           </div>
+
           <div>
-            <h4>{user?.fullName || "User"}</h4>
+            <h3>{user?.fullName || "User"}</h3>
             <p>{user?.email || "user@email.com"}</p>
+            <small>{user?.role || "USER"} • Online</small>
           </div>
         </div>
 
-        <nav className="saas-nav">
+        <div className="workspace-card">
+          <span>🚀</span>
+          <div>
+            <b>{workspaceLabel}</b>
+            <p>Premium SaaS Dashboard</p>
+          </div>
+        </div>
+
+        <nav className="premium-dash-nav">
           {links.map((link) => (
             <NavLink to={link.path} key={link.path}>
               <span>{link.icon}</span>
@@ -71,34 +100,68 @@ function DashboardLayout({ title, subtitle, children }) {
           ))}
         </nav>
 
-        <button className="saas-logout" onClick={logout}>
+        <div className="sidebar-upgrade-card">
+          <span>✨</span>
+          <h4>CareerConnect Pro</h4>
+          <p>Smart hiring, AI resume scoring and placement analytics.</p>
+        </div>
+
+        <button className="premium-logout" onClick={logout}>
           Logout
         </button>
       </aside>
 
-      <main className="saas-main">
-        <header className="saas-topbar">
-          <div>
-            <p className="eyebrow">{user?.role} Dashboard</p>
-            <h1>{title}</h1>
-            <p>{subtitle}</p>
+      <main className="premium-dash-main">
+        <header className="premium-dash-topbar">
+          <div className="topbar-left">
+            <p className="eyebrow">{workspaceLabel}</p>
+
+            <h1>
+              {getGreeting()}, {user?.fullName?.split(" ")[0] || "User"} 👋
+            </h1>
+
+            <p>{subtitle || title}</p>
           </div>
 
-          <div className="saas-top-actions">
+          <div className="topbar-center">
+            <input
+              type="text"
+              placeholder="Search jobs, users, companies..."
+              onFocus={(e) => (e.target.placeholder = "Search is UI-only for now")}
+              onBlur={(e) =>
+                (e.target.placeholder = "Search jobs, users, companies...")
+              }
+            />
+          </div>
+
+          <div className="topbar-actions">
             <NotificationBell />
 
             <button
-              className="icon-btn"
+              className="topbar-icon-btn"
               onClick={() => document.body.classList.toggle("dark")}
+              title="Toggle theme"
             >
               🌙
             </button>
 
-            <span className="user-chip">{user?.role}</span>
+            <span className="premium-role-chip">{user?.role || "USER"}</span>
           </div>
         </header>
 
-        <section className="saas-content">{children}</section>
+        <section className="dashboard-title-strip">
+          <div>
+            <h2>{title}</h2>
+            <p>{subtitle}</p>
+          </div>
+
+          <div className="live-status">
+            <span></span>
+            Live Workspace
+          </div>
+        </section>
+
+        <section className="premium-dash-content">{children}</section>
       </main>
     </div>
   );
