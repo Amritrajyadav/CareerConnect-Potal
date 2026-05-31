@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import API from "../services/api";
 import DashboardLayout from "../components/DashboardLayout";
 
@@ -157,6 +157,7 @@ function AdminDashboard() {
 
   const approveCompany = async (id) => {
     await API.patch(`/admin/companies/${id}/approve`);
+    setMsg("Company approved successfully.");
     loadAll();
   };
 
@@ -166,157 +167,243 @@ function AdminDashboard() {
     loadAll();
   };
 
+  const pendingCompanies = users.filter(
+    (u) => u.role === "COMPANY" && !u.approved
+  );
+
+  const activeUsers = users.filter((u) => u.active).length;
+  const blockedUsers = users.filter((u) => !u.active).length;
+
   const studentPercent = data.totalUsers
     ? Math.round(((data.students || 0) / data.totalUsers) * 100)
     : 0;
 
+  const platformHealth = useMemo(() => {
+    let score = 70;
+
+    if ((data.totalUsers || 0) > 0) score += 6;
+    if ((data.jobs || 0) > 0) score += 7;
+    if ((data.interviews || 0) > 0) score += 6;
+    if ((data.placementOffers || 0) > 0) score += 6;
+    if (pendingCompanies.length === 0) score += 5;
+
+    return Math.min(score, 98);
+  }, [data, pendingCompanies.length]);
+
   return (
     <DashboardLayout
       title="Admin Analytics Center"
-      subtitle="Monitor users, jobs, offers, interviews and placement analytics."
+      subtitle="Control users, companies, jobs, offers, approvals and placement analytics from one premium admin workspace."
     >
       {msg && <p className="message">{msg}</p>}
 
-      <div className="stats">
-        <div className="stat-card blue">
+      <section className="admin-premium-hero">
+        <div>
+          <span className="admin-hero-badge">🛡️ Platform Control Center</span>
+          <h1>Manage the complete CareerConnect ecosystem.</h1>
+          <p>
+            Monitor users, approve companies, manage jobs, publish offers,
+            analyze placement performance and keep the platform healthy.
+          </p>
+        </div>
+
+        <div className="admin-score-card">
+          <div className="admin-score-ring" style={{ "--score": platformHealth }}>
+            <span>{platformHealth}%</span>
+          </div>
+
+          <h3>Platform Health</h3>
+          <p>System activity and approval status</p>
+        </div>
+      </section>
+
+      <section className="admin-metric-grid">
+        <div className="admin-metric-card blue">
+          <span>👥</span>
           <h2>{data.totalUsers || 0}</h2>
           <p>Total Users</p>
         </div>
 
-        <div className="stat-card green">
+        <div className="admin-metric-card green">
+          <span>🎓</span>
           <h2>{data.students || 0}</h2>
           <p>Students</p>
         </div>
 
-        <div className="stat-card orange">
+        <div className="admin-metric-card orange">
+          <span>🏢</span>
           <h2>{data.companies || 0}</h2>
           <p>Companies</p>
         </div>
 
-        <div className="stat-card purple">
+        <div className="admin-metric-card purple">
+          <span>💼</span>
           <h2>{data.jobs || 0}</h2>
-          <p>Jobs</p>
+          <p>Total Jobs</p>
         </div>
-      </div>
+      </section>
 
-      <div className="stats">
-        <div className="stat-card blue">
+      <section className="admin-metric-grid">
+        <div className="admin-metric-card blue">
+          <span>🎤</span>
           <h2>{data.interviews || 0}</h2>
-          <p>Total Interviews</p>
+          <p>Interviews</p>
         </div>
 
-        <div className="stat-card green">
+        <div className="admin-metric-card green">
+          <span>🏆</span>
           <h2>{data.placementOffers || 0}</h2>
           <p>Placement Offers</p>
         </div>
 
-        <div className="stat-card orange">
+        <div className="admin-metric-card orange">
+          <span>✅</span>
           <h2>{data.acceptedOffers || 0}</h2>
           <p>Accepted Offers</p>
         </div>
 
-        <div className="stat-card purple">
+        <div className="admin-metric-card purple">
+          <span>📈</span>
           <h2>{data.placementRatio || 0}%</h2>
           <p>Placement Ratio</p>
         </div>
-      </div>
+      </section>
 
-      <div className="analytics-grid">
-        <div className="card analytics-card">
-          <h2>User Distribution</h2>
+      <section className="admin-insight-grid">
+        <div className="card admin-insight-card">
+          <div className="admin-card-head">
+            <div>
+              <p className="eyebrow">User Distribution</p>
+              <h2>Student Ratio</h2>
+            </div>
+            <strong>{studentPercent}%</strong>
+          </div>
 
-          <div className="donut-wrap">
-            <div className="donut-chart" style={{ "--value": studentPercent }}>
+          <div className="admin-donut-wrap">
+            <div className="admin-donut" style={{ "--value": studentPercent }}>
               <span>{studentPercent}%</span>
             </div>
 
-            <div className="chart-legend">
-              <p>
-                <b className="dot blue-dot"></b> Students: {data.students || 0}
-              </p>
-
-              <p>
-                <b className="dot green-dot"></b> Companies:{" "}
-                {data.companies || 0}
-              </p>
-
-              <p>
-                <b className="dot orange-dot"></b> Other/Admin:{" "}
-                {(data.totalUsers || 0) -
-                  (data.students || 0) -
-                  (data.companies || 0)}
-              </p>
+            <div className="admin-legend">
+              <p>🎓 Students: {data.students || 0}</p>
+              <p>🏢 Companies: {data.companies || 0}</p>
+              <p>🛡️ Admin/Other: {(data.totalUsers || 0) - (data.students || 0) - (data.companies || 0)}</p>
             </div>
           </div>
         </div>
 
-        <div className="card analytics-card">
-          <h2>Placement Funnel</h2>
+        <div className="card admin-insight-card">
+          <div className="admin-card-head">
+            <div>
+              <p className="eyebrow">Placement Funnel</p>
+              <h2>Recruitment Flow</h2>
+            </div>
+          </div>
 
-          <div className="bar-list">
+          <div className="admin-funnel">
             <div>
               <span>Applications</span>
-              <b
-                style={{
-                  width: `${Math.min((data.applications || 1) * 20, 100)}%`,
-                }}
-              ></b>
+              <b>{data.applications || 0}</b>
+              <i style={{ width: `${Math.min((data.applications || 1) * 18, 100)}%` }}></i>
             </div>
 
             <div>
               <span>Interviews</span>
-              <b
-                style={{
-                  width: `${Math.min((data.interviews || 1) * 22, 100)}%`,
-                }}
-              ></b>
+              <b>{data.interviews || 0}</b>
+              <i style={{ width: `${Math.min((data.interviews || 1) * 22, 100)}%` }}></i>
             </div>
 
             <div>
               <span>Offers</span>
-              <b
-                style={{
-                  width: `${Math.min((data.placementOffers || 1) * 25, 100)}%`,
-                }}
-              ></b>
+              <b>{data.placementOffers || 0}</b>
+              <i style={{ width: `${Math.min((data.placementOffers || 1) * 25, 100)}%` }}></i>
             </div>
 
             <div>
               <span>Accepted</span>
-              <b
-                style={{
-                  width: `${Math.min((data.acceptedOffers || 1) * 30, 100)}%`,
-                }}
-              ></b>
+              <b>{data.acceptedOffers || 0}</b>
+              <i style={{ width: `${Math.min((data.acceptedOffers || 1) * 30, 100)}%` }}></i>
             </div>
           </div>
         </div>
 
-        <div className="card analytics-card">
-          <h2>Growth Summary</h2>
-
-          <div className="growth-line">
-            <span style={{ height: "40%" }}></span>
-            <span style={{ height: "52%" }}></span>
-            <span style={{ height: "48%" }}></span>
-            <span style={{ height: "70%" }}></span>
-            <span style={{ height: "76%" }}></span>
-            <span style={{ height: "88%" }}></span>
+        <div className="card admin-insight-card">
+          <div className="admin-card-head">
+            <div>
+              <p className="eyebrow">System Status</p>
+              <h2>Platform Activity</h2>
+            </div>
           </div>
 
-          <p className="muted">
-            Placement analytics connected with interviews and accepted offers.
-          </p>
+          <div className="admin-health-list">
+            <div>
+              <span>🟢</span>
+              <b>{activeUsers}</b>
+              <p>Active Users</p>
+            </div>
+
+            <div>
+              <span>🔴</span>
+              <b>{blockedUsers}</b>
+              <p>Blocked Users</p>
+            </div>
+
+            <div>
+              <span>⏳</span>
+              <b>{pendingCompanies.length}</b>
+              <p>Pending Approvals</p>
+            </div>
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="dashboard-grid">
-        <div className="card">
-          <h2>
-            {editingOfferId ? "Edit Offer / Slider" : "Create Offer / Slider"}
-          </h2>
+      {pendingCompanies.length > 0 && (
+        <section className="card admin-approval-section">
+          <div className="admin-section-head">
+            <div>
+              <p className="eyebrow">Company Approval Center</p>
+              <h2>Pending Company Requests</h2>
+            </div>
 
-          <form onSubmit={saveOffer} className="pro-form">
+            <span>{pendingCompanies.length} Pending</span>
+          </div>
+
+          <div className="admin-approval-grid">
+            {pendingCompanies.map((company) => (
+              <div className="admin-approval-card" key={company.id}>
+                <div>
+                  <span className="admin-company-avatar">
+                    {company.fullName?.charAt(0) || "C"}
+                  </span>
+
+                  <h3>{company.fullName}</h3>
+                  <p>{company.email}</p>
+                </div>
+
+                <button
+                  className="btn"
+                  onClick={() => approveCompany(company.id)}
+                >
+                  Approve Company
+                </button>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="admin-main-grid">
+        <div className="card admin-form-card">
+          <div className="admin-form-head">
+            <div>
+              <p className="eyebrow">Offer CMS</p>
+              <h2>{editingOfferId ? "Edit Offer / Slider" : "Create Offer / Slider"}</h2>
+              <p>Publish offers, announcements and placement updates on the landing page.</p>
+            </div>
+            <span>🎁</span>
+          </div>
+
+          <form onSubmit={saveOffer} className="admin-premium-form">
             <input
               placeholder="Offer title"
               value={offer.title}
@@ -368,11 +455,7 @@ function AdminDashboard() {
               </button>
 
               {editingOfferId && (
-                <button
-                  className="btn secondary"
-                  type="button"
-                  onClick={cancelOfferEdit}
-                >
+                <button className="btn secondary" type="button" onClick={cancelOfferEdit}>
                   Cancel Edit
                 </button>
               )}
@@ -380,16 +463,21 @@ function AdminDashboard() {
           </form>
         </div>
 
-        <div className="card">
-          <h2>Admin Job Editor</h2>
+        <div className="card admin-form-card">
+          <div className="admin-form-head">
+            <div>
+              <p className="eyebrow">Job Control</p>
+              <h2>Admin Job Editor</h2>
+              <p>Select a job from the management table and update details from here.</p>
+            </div>
+            <span>💼</span>
+          </div>
 
-          <form onSubmit={updateJob} className="pro-form">
+          <form onSubmit={updateJob} className="admin-premium-form">
             <input
               placeholder="Job title"
               value={jobForm.title}
-              onChange={(e) =>
-                setJobForm({ ...jobForm, title: e.target.value })
-              }
+              onChange={(e) => setJobForm({ ...jobForm, title: e.target.value })}
             />
 
             <textarea
@@ -411,9 +499,7 @@ function AdminDashboard() {
             <input
               placeholder="Salary"
               value={jobForm.salary}
-              onChange={(e) =>
-                setJobForm({ ...jobForm, salary: e.target.value })
-              }
+              onChange={(e) => setJobForm({ ...jobForm, salary: e.target.value })}
             />
 
             <input
@@ -460,36 +546,35 @@ function AdminDashboard() {
               </button>
 
               {editingJobId && (
-                <button
-                  className="btn secondary"
-                  type="button"
-                  onClick={cancelJobEdit}
-                >
+                <button className="btn secondary" type="button" onClick={cancelJobEdit}>
                   Cancel Edit
                 </button>
               )}
             </div>
           </form>
         </div>
-      </div>
+      </section>
 
-      <div className="card section-card">
-        <h2>Active Offers</h2>
+      <section className="card admin-list-section">
+        <div className="admin-section-head">
+          <div>
+            <p className="eyebrow">Active Offers</p>
+            <h2>Offer & Slider Management</h2>
+          </div>
+          <span>{offers.length} Offers</span>
+        </div>
 
-        <div className="mini-list">
+        <div className="admin-offer-grid">
           {offers.map((o) => (
-            <div className="mini-row job-manage-row" key={o.id}>
+            <div className="admin-offer-card" key={o.id}>
               <div>
-                <b>{o.title}</b>
-                <p>{o.targetRole}</p>
-
-                <span
-                  className={`status-pill ${
-                    o.active ? "selected" : "rejected"
-                  }`}
-                >
+                <span className={`status-pill ${o.active ? "selected" : "rejected"}`}>
                   {o.active ? "ACTIVE" : "INACTIVE"}
                 </span>
+
+                <h3>{o.title}</h3>
+                <p>{o.description}</p>
+                <b>{o.targetRole}</b>
               </div>
 
               <div className="table-actions">
@@ -497,10 +582,7 @@ function AdminDashboard() {
                   Edit
                 </button>
 
-                <button
-                  className="btn danger small"
-                  onClick={() => deleteOffer(o.id)}
-                >
+                <button className="btn danger small" onClick={() => deleteOffer(o.id)}>
                   Delete
                 </button>
               </div>
@@ -509,13 +591,19 @@ function AdminDashboard() {
 
           {offers.length === 0 && <p>No offers created yet.</p>}
         </div>
-      </div>
+      </section>
 
-      <div className="card section-card">
-        <h2>Users Management</h2>
+      <section className="card section-card">
+        <div className="admin-section-head">
+          <div>
+            <p className="eyebrow">Users</p>
+            <h2>Users Management</h2>
+          </div>
+          <span>{users.length} Users</span>
+        </div>
 
         <div className="table-wrap">
-          <table className="table">
+          <table className="table premium-admin-table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -531,8 +619,10 @@ function AdminDashboard() {
             <tbody>
               {users.map((u) => (
                 <tr key={u.id}>
-                  <td>{u.id}</td>
-                  <td>{u.fullName}</td>
+                  <td>#{u.id}</td>
+                  <td>
+                    <b>{u.fullName}</b>
+                  </td>
                   <td>{u.email}</td>
                   <td>
                     <span className="status-pill">{u.role}</span>
@@ -542,34 +632,22 @@ function AdminDashboard() {
 
                   <td className="table-actions">
                     {!u.approved && u.role === "COMPANY" && (
-                      <button
-                        className="btn small"
-                        onClick={() => approveCompany(u.id)}
-                      >
+                      <button className="btn small" onClick={() => approveCompany(u.id)}>
                         Approve
                       </button>
                     )}
 
                     {u.active ? (
-                      <button
-                        className="btn secondary small"
-                        onClick={() => blockUser(u.id)}
-                      >
+                      <button className="btn secondary small" onClick={() => blockUser(u.id)}>
                         Block
                       </button>
                     ) : (
-                      <button
-                        className="btn small"
-                        onClick={() => unblockUser(u.id)}
-                      >
+                      <button className="btn small" onClick={() => unblockUser(u.id)}>
                         Unblock
                       </button>
                     )}
 
-                    <button
-                      className="btn danger small"
-                      onClick={() => deleteUser(u.id)}
-                    >
+                    <button className="btn danger small" onClick={() => deleteUser(u.id)}>
                       Delete
                     </button>
                   </td>
@@ -584,13 +662,19 @@ function AdminDashboard() {
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
-      <div className="card section-card">
-        <h2>Jobs Management</h2>
+      <section className="card section-card">
+        <div className="admin-section-head">
+          <div>
+            <p className="eyebrow">Jobs</p>
+            <h2>Jobs Management</h2>
+          </div>
+          <span>{jobs.length} Jobs</span>
+        </div>
 
         <div className="table-wrap">
-          <table className="table">
+          <table className="table premium-admin-table">
             <thead>
               <tr>
                 <th>ID</th>
@@ -606,18 +690,16 @@ function AdminDashboard() {
             <tbody>
               {jobs.map((j) => (
                 <tr key={j.id}>
-                  <td>{j.id}</td>
-                  <td>{j.title}</td>
-                  <td>{j.location}</td>
-                  <td>{j.salary}</td>
+                  <td>#{j.id}</td>
+                  <td>
+                    <b>{j.title}</b>
+                  </td>
+                  <td>{j.location || "Not added"}</td>
+                  <td>{j.salary || "Not added"}</td>
                   <td>{j.jobType}</td>
 
                   <td>
-                    <span
-                      className={`status-pill ${
-                        j.active ? "selected" : "rejected"
-                      }`}
-                    >
+                    <span className={`status-pill ${j.active ? "selected" : "rejected"}`}>
                       {j.active ? "ACTIVE" : "INACTIVE"}
                     </span>
                   </td>
@@ -627,10 +709,7 @@ function AdminDashboard() {
                       Edit
                     </button>
 
-                    <button
-                      className="btn danger small"
-                      onClick={() => deleteJob(j.id)}
-                    >
+                    <button className="btn danger small" onClick={() => deleteJob(j.id)}>
                       Delete
                     </button>
                   </td>
@@ -645,7 +724,7 @@ function AdminDashboard() {
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
     </DashboardLayout>
   );
 }
