@@ -61,7 +61,7 @@ function Footer() {
         </p>
 
         <span>
-          Built with   using React + Spring Boot + MySQL
+          Amritrajyadav7@gmail.com
         </span>
       </div>
     </footer>
