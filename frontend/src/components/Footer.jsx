@@ -19,7 +19,7 @@ function Footer() {
           </p>
 
           <div className="footer-socials">
-            <a href="#">🌐</a>
+            <a href="https://careerconnect-potal.netlify.app/login">🌐</a>
             <a href="#">💼</a>
             <a href="#">📘</a>
             <a href="#">📸</a>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import NotificationBell from "./NotificationBell";
@@ -5,6 +6,7 @@ import NotificationBell from "./NotificationBell";
 function Navbar() {
   const { user, logoutUser } = useAuth();
   const navigate = useNavigate();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleDark = () => {
     document.body.classList.toggle("dark");
@@ -12,61 +14,105 @@ function Navbar() {
 
   const handleLogout = () => {
     logoutUser();
+    setMenuOpen(false);
     navigate("/login");
   };
 
+  const closeMenu = () => {
+    setMenuOpen(false);
+  };
+
   return (
-    <nav className="pro-navbar">
-      <Link to="/" className="brand">
-        <span className="brand-icon">C</span>
+    <nav className="premium-navbar">
+      <Link to="/" className="premium-brand" onClick={closeMenu}>
+        <span className="premium-brand-icon">C</span>
+
         <div>
           <strong>CareerConnect</strong>
-          <small>Pro</small>
+          <small>AI Hiring SaaS</small>
         </div>
       </Link>
 
-      <div className="nav-menu">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/jobs">Jobs</NavLink>
+      <button
+        className="mobile-menu-btn"
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Toggle menu"
+      >
+        {menuOpen ? "✕" : "☰"}
+      </button>
+
+      <div className={`premium-nav-center ${menuOpen ? "open" : ""}`}>
+        <NavLink to="/" onClick={closeMenu}>
+          Home
+        </NavLink>
+
+        <NavLink to="/jobs" onClick={closeMenu}>
+          Jobs
+        </NavLink>
 
         {user?.role === "STUDENT" && (
           <>
-            <NavLink to="/student">Dashboard</NavLink>
-            <NavLink to="/student-profile">Profile</NavLink>
+            <NavLink to="/student" onClick={closeMenu}>
+              Dashboard
+            </NavLink>
+            <NavLink to="/student-profile" onClick={closeMenu}>
+              Profile
+            </NavLink>
+            <NavLink to="/resume-analyzer" onClick={closeMenu}>
+              AI Resume
+            </NavLink>
           </>
         )}
 
         {user?.role === "COMPANY" && (
           <>
-            <NavLink to="/company">HR Panel</NavLink>
-            <NavLink to="/company-profile">Company</NavLink>
-            <NavLink to="/applicants">Applicants</NavLink>
+            <NavLink to="/company" onClick={closeMenu}>
+              HR Panel
+            </NavLink>
+            <NavLink to="/company-profile" onClick={closeMenu}>
+              Company
+            </NavLink>
+            <NavLink to="/applicants" onClick={closeMenu}>
+              Applicants
+            </NavLink>
           </>
         )}
 
-        {user?.role === "ADMIN" && <NavLink to="/admin">Admin</NavLink>}
+        {user?.role === "ADMIN" && (
+          <NavLink to="/admin" onClick={closeMenu}>
+            Admin
+          </NavLink>
+        )}
       </div>
 
-      <div className="nav-actions">
-        <NotificationBell />
+      <div className={`premium-nav-actions ${menuOpen ? "open" : ""}`}>
+        {user && <NotificationBell />}
 
-        <button className="icon-btn" onClick={toggleDark} title="Toggle theme">
+        <button className="nav-round-btn" onClick={toggleDark} title="Theme">
           🌙
         </button>
 
         {!user ? (
           <>
-            <Link to="/login" className="btn secondary">
+            <Link to="/login" className="nav-login-btn" onClick={closeMenu}>
               Login
             </Link>
-            <Link to="/register" className="btn">
+
+            <Link to="/register" className="nav-cta-btn" onClick={closeMenu}>
               Get Started
             </Link>
           </>
         ) : (
           <>
-            <span className="user-chip">{user.role}</span>
-            <button className="btn danger" onClick={handleLogout}>
+            <div className="nav-user-card">
+              <span>{user?.fullName?.charAt(0) || "U"}</span>
+              <div>
+                <b>{user?.fullName || "User"}</b>
+                <small>{user?.role}</small>
+              </div>
+            </div>
+
+            <button className="nav-logout-btn" onClick={handleLogout}>
               Logout
             </button>
           </>
