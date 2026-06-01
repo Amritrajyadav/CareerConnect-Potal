@@ -71,7 +71,7 @@ function Home() {
       package: "5.8 LPA",
     },
     {
-      name: "AMritraj Yadav",
+      name: "Amritraj Yadav",
       role: "Backend Developer",
       company: "Accenture",
       package: "7.2 LPA",
@@ -82,7 +82,7 @@ function Home() {
     <div className="home-premium">
       <section className="home-hero-premium">
         <div className="home-hero-left">
-          <span className="home-badge">Hireing Portal</span>
+          <span className="home-badge">🚀 Hiring Portal</span>
 
           <h1>
             Launch Your Dream Career With Smart Hiring, AI Resume Analysis &
@@ -159,7 +159,7 @@ function Home() {
 
             <div className="preview-mini-list">
               <div>
-                <span>Target</span>
+                <span>🎯</span>
                 <p>
                   <b>Java Full Stack</b>
                   <small>92% Match</small>
@@ -167,7 +167,7 @@ function Home() {
               </div>
 
               <div>
-                <span>Time & Date</span>
+                <span>📅</span>
                 <p>
                   <b>Interview Scheduled</b>
                   <small>Today 4:30 PM</small>
@@ -187,6 +187,26 @@ function Home() {
             <h3>Active</h3>
             <p>12 companies online</p>
           </div>
+        </div>
+      </section>
+
+      <section className="premium-logo-slider">
+        <div className="premium-slider-track">
+          <div className="premium-slide">🎓 Student Dashboard</div>
+          <div className="premium-slide">🤖 AI Resume Analyzer</div>
+          <div className="premium-slide">💼 Smart Job Matching</div>
+          <div className="premium-slide">🏢 Company Hiring Panel</div>
+          <div className="premium-slide">📊 Placement Analytics</div>
+          <div className="premium-slide">🛡️ Admin Control Center</div>
+          <div className="premium-slide">📅 Interview Tracking</div>
+
+          <div className="premium-slide">🎓 Student Dashboard</div>
+          <div className="premium-slide">🤖 AI Resume Analyzer</div>
+          <div className="premium-slide">💼 Smart Job Matching</div>
+          <div className="premium-slide">🏢 Company Hiring Panel</div>
+          <div className="premium-slide">📊 Placement Analytics</div>
+          <div className="premium-slide">🛡️ Admin Control Center</div>
+          <div className="premium-slide">📅 Interview Tracking</div>
         </div>
       </section>
 
