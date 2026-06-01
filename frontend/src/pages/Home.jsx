@@ -34,6 +34,29 @@ function Home() {
     },
   ];
 
+  const imageSlides = [
+    {
+      title: "Student Career Dashboard",
+      text: "Track applications, interviews, saved jobs and placement offers.",
+      img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      title: "Company Hiring Panel",
+      text: "Post jobs, manage applicants and control recruitment workflow.",
+      img: "https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      title: "AI Resume Analyzer",
+      text: "Improve ATS score, missing skills and job match percentage.",
+      img: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+    },
+    {
+      title: "Admin Control Center",
+      text: "Approve companies, manage users and monitor platform analytics.",
+      img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
+    },
+  ];
+
   const workflow = [
     {
       step: "01",
@@ -207,6 +230,26 @@ function Home() {
           <div className="premium-slide">📊 Placement Analytics</div>
           <div className="premium-slide">🛡️ Admin Control Center</div>
           <div className="premium-slide">📅 Interview Tracking</div>
+        </div>
+      </section>
+
+      <section className="home-image-slider-section">
+        <div className="home-section-title">
+          <span className="eyebrow">Platform Preview</span>
+          <h2>One platform for students, recruiters and placement teams.</h2>
+        </div>
+
+        <div className="home-image-slider">
+          {[...imageSlides, ...imageSlides].map((slide, index) => (
+            <div className="home-image-slide" key={index}>
+              <img src={slide.img} alt={slide.title} />
+              <div>
+                <span>CareerConnect Pro</span>
+                <h3>{slide.title}</h3>
+                <p>{slide.text}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 

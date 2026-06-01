@@ -6423,3 +6423,123 @@ textarea {
     transform: translateX(-50%);
   }
 }
+
+/* ===== FINAL LOGO SIZE FIX ===== */
+.brand-logo {
+  width: 34px !important;
+  height: 34px !important;
+  object-fit: contain !important;
+  display: block;
+  border-radius: 8px;
+}
+
+/* ===== HOME IMAGE SLIDER ===== */
+
+.home-image-slider-section {
+  padding: 34px 0 60px;
+  overflow: hidden;
+}
+
+.home-image-slider-section .home-section-title {
+  padding: 0 7%;
+  margin-bottom: 24px;
+}
+
+.home-image-slider {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  animation: homeImageSlide 34s linear infinite;
+  padding-left: 7%;
+}
+
+.home-image-slider:hover {
+  animation-play-state: paused;
+}
+
+.home-image-slide {
+  width: 410px;
+  height: 300px;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.16);
+  background: #0f172a;
+}
+
+.home-image-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.5s;
+  opacity: 0.82;
+}
+
+.home-image-slide:hover img {
+  transform: scale(1.08);
+  opacity: 0.65;
+}
+
+.home-image-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.08),
+    rgba(15, 23, 42, 0.88)
+  );
+}
+
+.home-image-slide div {
+  position: absolute;
+  z-index: 2;
+  left: 24px;
+  right: 24px;
+  bottom: 22px;
+  color: white;
+}
+
+.home-image-slide span {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.16);
+  padding: 7px 11px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.home-image-slide h3 {
+  font-size: 24px;
+  margin: 0 0 8px;
+}
+
+.home-image-slide p {
+  margin: 0;
+  color: #dbeafe;
+  line-height: 1.5;
+  font-weight: 700;
+}
+
+@keyframes homeImageSlide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 760px) {
+  .home-image-slide {
+    width: 300px;
+    height: 240px;
+  }
+
+  .home-image-slider {
+    gap: 16px;
+  }
+}
