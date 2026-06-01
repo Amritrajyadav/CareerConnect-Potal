@@ -25,7 +25,11 @@ function Navbar() {
   return (
     <nav className="premium-navbar">
       <Link to="/" className="premium-brand" onClick={closeMenu}>
-        <span className="premium-brand-icon">C</span>
+        <img
+          src="/frontend/public/logo.png"
+          alt="CareerConnect Logo"
+          className="brand-logo"
+        />
 
         <div>
           <strong>CareerConnect</strong>
