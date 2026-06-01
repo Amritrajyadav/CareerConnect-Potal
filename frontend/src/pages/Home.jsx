@@ -59,19 +59,19 @@ function Home() {
 
   const successStories = [
     {
-      name: "Rahul Verma",
+      name: "Vishnu Dutt Mishra",
       role: "Java Full Stack Developer",
       company: "TCS",
       package: "6.5 LPA",
     },
     {
-      name: "Anjali Sharma",
+      name: "Nihal Singh",
       role: "React Developer",
       company: "Infosys",
       package: "5.8 LPA",
     },
     {
-      name: "Aman Gupta",
+      name: "AMritraj Yadav",
       role: "Backend Developer",
       company: "Accenture",
       package: "7.2 LPA",
@@ -82,7 +82,7 @@ function Home() {
     <div className="home-premium">
       <section className="home-hero-premium">
         <div className="home-hero-left">
-          <span className="home-badge">🚀 AI-Powered Career & Hiring SaaS</span>
+          <span className="home-badge">Hireing Portal</span>
 
           <h1>
             Launch Your Dream Career With Smart Hiring, AI Resume Analysis &
@@ -159,7 +159,7 @@ function Home() {
 
             <div className="preview-mini-list">
               <div>
-                <span>🎯</span>
+                <span>Target</span>
                 <p>
                   <b>Java Full Stack</b>
                   <small>92% Match</small>
@@ -167,7 +167,7 @@ function Home() {
               </div>
 
               <div>
-                <span>📅</span>
+                <span>Time & Date</span>
                 <p>
                   <b>Interview Scheduled</b>
                   <small>Today 4:30 PM</small>
