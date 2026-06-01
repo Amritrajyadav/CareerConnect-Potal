@@ -6363,3 +6363,10 @@ textarea {
   height:48px;
   object-fit:contain;
 }
+.brand-logo {
+  width: 58px;
+  height: 58px;
+  object-fit: contain;
+  display: block;
+  border-radius: 14px;
+}
