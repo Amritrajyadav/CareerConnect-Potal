@@ -2741,32 +2741,6 @@ textarea {
   }
 }
 
-/* ===== Phase 6.2 CRUD Polish ===== */
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.job-manage-row {
-  align-items: flex-start;
-}
-
-.job-manage-row .table-actions {
-  justify-content: flex-end;
-}
-
-@media (max-width: 760px) {
-  .job-manage-row {
-    align-items: flex-start;
-  }
-
-  .job-manage-row .table-actions {
-    justify-content: flex-start;
-  }
-}
-
 /* ===== Phase 6.3 Interview Scheduling ===== */
 
 .interview-modal {
@@ -6358,19 +6332,6 @@ textarea {
     font-size: 28px;
   }
 }
-.brand-logo{
-  width:48px;
-  height:70px;
-  object-fit:contain;
-}
-.brand-logo {
-  width: 58px;
-  height: 58px;
-  object-fit: contain;
-  display: block;
-  border-radius: 14px;
-}
-
 .premium-logo-slider {
   width: 100%;
   overflow: hidden;
@@ -6425,14 +6386,6 @@ textarea {
 }
 
 /* ===== FINAL LOGO SIZE FIX ===== */
-.brand-logo {
-  width: 34px !important;
-  height: 34px !important;
-  object-fit: contain !important;
-  display: block;
-  border-radius: 8px;
-}
-
 /* ===== HOME IMAGE SLIDER ===== */
 
 .home-image-slider-section {
@@ -6783,4 +6736,196 @@ textarea {
 
 .privacy-content ul {
   padding-left: 25px;
+}
+
+/* =====================================================
+   FINAL UI FIX: Compact Premium Navbar + Privacy Page
+   Paste-safe overrides. Duplicate brand-logo CSS removed.
+===================================================== */
+
+.premium-navbar {
+  min-height: 68px !important;
+  padding: 8px 7% !important;
+  gap: 18px !important;
+  background: rgba(255, 255, 255, 0.86) !important;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06) !important;
+}
+
+.dark .premium-navbar {
+  background: rgba(15, 23, 42, 0.92) !important;
+}
+
+.premium-brand {
+  min-width: 210px !important;
+  gap: 11px !important;
+}
+
+.brand-logo {
+  width: 36px !important;
+  height: 36px !important;
+  object-fit: contain !important;
+  display: block !important;
+  border-radius: 10px !important;
+}
+
+.premium-brand strong {
+  font-size: 18px !important;
+  line-height: 1.05 !important;
+}
+
+.premium-brand small {
+  margin-top: 4px !important;
+  font-size: 10px !important;
+  letter-spacing: 1.3px !important;
+}
+
+.premium-nav-center {
+  gap: 6px !important;
+}
+
+.premium-nav-center a {
+  padding: 9px 13px !important;
+  font-size: 14px !important;
+  border-radius: 999px !important;
+}
+
+.premium-nav-actions {
+  min-width: 230px !important;
+  gap: 9px !important;
+}
+
+.nav-round-btn {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.nav-login-btn,
+.nav-cta-btn {
+  padding: 10px 17px !important;
+}
+
+.page {
+  min-height: calc(100vh - 68px) !important;
+}
+
+/* Privacy Policy Premium SaaS UI */
+.privacy-container {
+  min-height: calc(100vh - 68px) !important;
+  padding: 54px 7% 70px !important;
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.14), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.12), transparent 32%),
+    linear-gradient(180deg, #f8fbff, #eef4ff) !important;
+}
+
+.dark .privacy-container {
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.18), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(124, 58, 237, 0.16), transparent 32%),
+    linear-gradient(180deg, #020617, #0f172a) !important;
+}
+
+.privacy-content {
+  max-width: 1080px !important;
+  margin: 0 auto !important;
+  padding: 46px !important;
+  border-radius: 30px !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  box-shadow: 0 25px 70px rgba(15, 23, 42, 0.12) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.dark .privacy-content {
+  background: rgba(30, 41, 59, 0.88) !important;
+  border-color: rgba(51, 65, 85, 0.9) !important;
+}
+
+.privacy-content h1 {
+  font-size: 46px !important;
+  line-height: 1.1 !important;
+  letter-spacing: -1px !important;
+  color: #0f172a !important;
+}
+
+.dark .privacy-content h1 {
+  color: #ffffff !important;
+}
+
+.last-updated {
+  display: table !important;
+  margin: 14px auto 42px !important;
+  padding: 9px 16px !important;
+  border-radius: 999px !important;
+  background: #eef4ff !important;
+  color: #2563eb !important;
+  font-weight: 900 !important;
+}
+
+.privacy-content section {
+  padding: 24px !important;
+  margin-bottom: 20px !important;
+  border-radius: 22px !important;
+  background: #f8fafc !important;
+  border: 1px solid #e2e8f0 !important;
+}
+
+.dark .privacy-content section {
+  background: rgba(15, 23, 42, 0.72) !important;
+  border-color: rgba(51, 65, 85, 0.9) !important;
+}
+
+.privacy-content h2 {
+  color: #2563eb !important;
+  margin-bottom: 12px !important;
+  font-size: 22px !important;
+}
+
+.privacy-content p,
+.privacy-content li {
+  color: #475569 !important;
+  line-height: 1.8 !important;
+  font-size: 15.5px !important;
+}
+
+.dark .privacy-content p,
+.dark .privacy-content li {
+  color: #cbd5e1 !important;
+}
+
+.privacy-content ul {
+  padding-left: 22px !important;
+  margin-bottom: 0 !important;
+}
+
+@media (max-width: 1100px) {
+  .premium-navbar {
+    padding: 10px 5% !important;
+  }
+
+  .premium-brand {
+    min-width: auto !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .privacy-container {
+    padding: 34px 18px 50px !important;
+  }
+
+  .privacy-content {
+    padding: 26px !important;
+    border-radius: 24px !important;
+  }
+
+  .privacy-content h1 {
+    font-size: 34px !important;
+  }
+
+  .privacy-content section {
+    padding: 18px !important;
+  }
 }
