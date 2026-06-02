@@ -6929,3 +6929,54 @@ textarea {
     padding: 18px !important;
   }
 }
+
+/* ===== FINAL NAVBAR FIX ===== */
+
+.premium-navbar {
+  min-height: 76px !important;
+  padding: 10px 7% !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 18px !important;
+}
+
+.premium-brand {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+}
+
+.brand-logo {
+  width: 42px !important;
+  height: 42px !important;
+  object-fit: contain !important;
+}
+
+.premium-brand strong {
+  font-size: 22px !important;
+  line-height: 1.1 !important;
+}
+
+.premium-brand small {
+  font-size: 12px !important;
+  letter-spacing: 1.5px !important;
+}
+
+.premium-nav-center {
+  gap: 14px !important;
+}
+
+.premium-nav-center a {
+  padding: 10px 14px !important;
+  font-size: 15px !important;
+}
+
+.premium-nav-actions {
+  gap: 10px !important;
+}
+
+.nav-round-btn,
+.nav-login-btn,
+.nav-cta-btn {
+  min-height: 44px !important;
+}
