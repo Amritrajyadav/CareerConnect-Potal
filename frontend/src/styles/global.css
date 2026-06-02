@@ -6543,3 +6543,19 @@ textarea {
     gap: 16px;
   }
 }
+
+/* Hero Title Fix */
+
+.home-hero-left h1 {
+  font-size: 58px !important;
+  line-height: 1.08 !important;
+  letter-spacing: -2px;
+  max-width: 750px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .home-hero-left h1 {
+    font-size: 40px !important;
+  }
+}
