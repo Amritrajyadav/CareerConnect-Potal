@@ -7,7 +7,11 @@ function Footer() {
 
         <div className="footer-brand">
           <div className="footer-logo">
-            <span>C</span>
+            <img
+              src="/favicon.png"
+              alt="CareerConnect"
+              className="footer-logo-img"
+            />
           </div>
 
           <h2>CareerConnect Pro</h2>
@@ -19,10 +23,29 @@ function Footer() {
           </p>
 
           <div className="footer-socials">
-            <a href="https://careerconnect-potal.netlify.app/login">🌐</a>
-            <a href="#">💼</a>
-            <a href="#">📘</a>
-            <a href="#">📸</a>
+            <a
+              href="https://linkedin.com/in/amritrajyadav01"
+              target="_blank"
+              rel="noreferrer"
+            >
+              💼
+            </a>
+
+            <a
+              href="https://github.com/Amritrajyadav"
+              target="_blank"
+              rel="noreferrer"
+            >
+              🐙
+            </a>
+
+            <a
+              href="https://amritraj1-portfolio.netlify.app/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              🌐
+            </a>
           </div>
         </div>
 
@@ -48,7 +71,7 @@ function Footer() {
           <h3>Company</h3>
 
           <a href="#">About Us</a>
-          <a href="#">Contact</a>
+          <Link to="/contact">Contact</Link>
           <a href="#">Privacy Policy</a>
           <a href="#">Terms & Conditions</a>
         </div>
