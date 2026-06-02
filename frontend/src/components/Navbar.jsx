@@ -61,6 +61,10 @@ function Navbar() {
         <NavLink to="/about" onClick={closeMenu}>
           About
         </NavLink>
+        
+        <NavLink to="/privacy-policy" onClick={closeMenu}>
+          Privacy Policy
+        </NavLink>
 
         {user?.role === "STUDENT" && (
           <>

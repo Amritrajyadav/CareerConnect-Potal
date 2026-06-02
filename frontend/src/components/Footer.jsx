@@ -72,7 +72,7 @@ function Footer() {
 
           <Link to="/about">About Us</Link>
           <Link to="/contact">Contact</Link>
-          <a href="#">Privacy Policy</a>
+          <Link to="/privacy-policy">Privacy Policy</Link>
           <a href="#">Terms & Conditions</a>
         </div>
 
@@ -84,6 +84,7 @@ function Footer() {
         </p>
 
         <span>
+            Contact: SUPPORT@CAREERCONNECTPROTAL.COM
           Amritrajyadav7@gmail.com
         </span>
       </div>

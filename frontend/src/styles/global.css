@@ -6738,3 +6738,49 @@ textarea {
   margin-top:80px;
   text-align:center;
 }
+
+.privacy-container {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 60px 20px;
+}
+
+.privacy-content {
+  max-width: 1000px;
+  margin: auto;
+  background: #ffffff;
+  padding: 50px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.privacy-content h1 {
+  text-align: center;
+  color: #0f172a;
+  margin-bottom: 10px;
+}
+
+.last-updated {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 40px;
+}
+
+.privacy-content section {
+  margin-bottom: 30px;
+}
+
+.privacy-content h2 {
+  color: #2563eb;
+  margin-bottom: 12px;
+}
+
+.privacy-content p,
+.privacy-content li {
+  color: #475569;
+  line-height: 1.8;
+}
+
+.privacy-content ul {
+  padding-left: 25px;
+}
