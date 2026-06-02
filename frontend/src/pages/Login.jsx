@@ -120,14 +120,6 @@ function Login() {
             <Link to="/forgot-password">Forgot Password?</Link>
             <Link to="/register">Create Account</Link>
           </div>
-
-          <div className="login-note">
-            <span>🔒</span>
-            <p>
-              Secure JWT authentication with role-based access for students,
-              companies and admins.
-            </p>
-          </div>
         </div>
       </section>
     </div>
