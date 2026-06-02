@@ -25,7 +25,9 @@ import CompanyPublicPage from "./pages/CompanyPublicPage";
 import StudentPublicPage from "./pages/StudentPublicPage";
 
 import ProtectedRoute from "./routes/ProtectedRoute";
+  
 import ContactUs from "./pages/ContactUs";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -41,6 +43,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/contact" element={<ContactUs />} />
+            
             <Route path="/company-public/:id" element={<CompanyPublicPage />} />
             <Route path="/student-public/:id" element={<StudentPublicPage />} />
             

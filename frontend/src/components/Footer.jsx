@@ -70,7 +70,7 @@ function Footer() {
         <div className="footer-links">
           <h3>Company</h3>
 
-          <a href="#">About Us</a>
+          <Link to="/about">About Us</Link>
           <Link to="/contact">Contact</Link>
           <a href="#">Privacy Policy</a>
           <a href="#">Terms & Conditions</a>

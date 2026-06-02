@@ -58,6 +58,10 @@ function Navbar() {
           Contact
         </NavLink>
 
+        <NavLink to="/about" onClick={closeMenu}>
+          About
+        </NavLink>
+
         {user?.role === "STUDENT" && (
           <>
             <NavLink to="/student" onClick={closeMenu}>
